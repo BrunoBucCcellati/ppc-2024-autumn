@@ -3,6 +3,7 @@
 #include <thread>
 
 #include <cmath>
+#include <vector>
 
 #include <numeric>
 
