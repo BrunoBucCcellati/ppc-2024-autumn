@@ -15,9 +15,9 @@ class JacobiIterativeTaskSequential : public ppc::core::Task {
   bool post_processing() override;
 
  private:
-  std::vector<double> 
-  std::vector<double>
-  std::vector<double>
+  std::vector<double> input_matrix_{}; 
+  std::vector<double> input_right_vector_{};
+  std::vector<double> output_x_vector_{};
 };
 
-}  // namespace deryabin_m_symbol_frequency_seq
+}  // deryabin_m_jacobi_iterative_method_seq
