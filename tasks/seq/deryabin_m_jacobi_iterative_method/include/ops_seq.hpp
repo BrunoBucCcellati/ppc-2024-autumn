@@ -6,18 +6,18 @@
 
 namespace deryabin_m_jacobi_iterative_method_seq {
 
-class SymbolFrequencyTaskSequential : public ppc::core::Task {
+class JacobiIterativeTaskSequential : public ppc::core::Task {
  public:
-  explicit SymbolFrequencyTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_) : Task(std::move(taskData_)) {}
+  explicit JacobiIterativeTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_) : Task(std::move(taskData_)) {}
   bool pre_processing() override;
   bool validation() override;
   bool run() override;
   bool post_processing() override;
 
  private:
-  std::string input_str_{};
-  int frequency_{};
-  char input_symbol_{};
+  std::vector<double> 
+  std::vector<double>
+  std::vector<double>
 };
 
 }  // namespace deryabin_m_symbol_frequency_seq
