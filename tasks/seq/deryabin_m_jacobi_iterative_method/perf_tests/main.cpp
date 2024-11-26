@@ -4,9 +4,9 @@
 #include "core/perf/include/perf.hpp"
 #include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
 
-vector<double> input_matrix_ = vector<double>(10000);
-vector<double> input_right_vector_ = vector<double>(100);
-vector<double> output_x_vector_ = vector<double>(100, 0);
+std::vector<double> input_matrix_ = std::vector<double>(10000);
+std::vector<double> input_right_vector_ = std::vector<double>(100);
+std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
 unsigned short razmernost = 0;
 
 TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
