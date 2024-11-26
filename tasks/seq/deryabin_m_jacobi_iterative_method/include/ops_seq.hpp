@@ -1,4 +1,8 @@
+#pragma once
+
 #include <vector>
+
+#include "core/task/include/task.hpp"
 
 namespace deryabin_m_jacobi_iterative_method_seq {
 
@@ -16,3 +20,6 @@ private:
   std::vector<double> input_matrix_{};
   std::vector<double> input_right_vector_{};
   std::vector<double> output_x_vector_{};
+};
+
+} // namespace deryabin_m_jacobi_iterative_method_seq
