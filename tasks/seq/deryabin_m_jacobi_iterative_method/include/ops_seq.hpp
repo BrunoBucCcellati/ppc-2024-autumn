@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-
 #include "core/task/include/task.hpp"
 
-namespace deryabin_m_symbol_frequency_seq {
+#include <vector>
+
+namespace deryabin_m_jacobi_iterative_method_seq {
 
 class SymbolFrequencyTaskSequential : public ppc::core::Task {
  public:
