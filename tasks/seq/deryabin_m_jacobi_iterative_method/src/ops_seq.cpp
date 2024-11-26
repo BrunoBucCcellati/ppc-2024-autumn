@@ -15,7 +15,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::
       reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   input_right_vector_ =
       reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
-  output_x_vector_ = vector<double>(input_right_vector_.size(), double());
+  output_x_vector_ = std::vector<double>(input_right_vector_.size(), double());
   return true;
 }
 
