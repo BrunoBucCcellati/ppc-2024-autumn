@@ -10,23 +10,23 @@ vector<double> input_matrix_ = vector<double>(10000);
 vector<double> input_right_vector_ = vector<double>(100);
 vector<double> output_x_vector_ = vector<double>(100, 0);
 unsigned short razmernost = 0;
-while (razmernost < 10000) {
-  if (razmernost % 101 == 0) {
-    input_matrix_[razmernost] = 1;
-    if (razmernost < 100) {
-      input_right_vector_[razmernost] = razmernost + 1;
-    }
-  } else {
-    input_matrix_[razmernost] = 0;
-    if (razmernost < 100) {
-      input_right_vector_[razmernost] = razmernost + 1;
-    }
-  }
-  razmernost++;
-}
 
 TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   // Create data
+  while (razmernost < 10000) {
+    if (razmernost % 101 == 0) {
+      input_matrix_[razmernost] = 1;
+      if (razmernost < 100) {
+        input_right_vector_[razmernost] = razmernost + 1;
+      }
+    } else {
+      input_matrix_[razmernost] = 0;
+      if (razmernost < 100) {
+        input_right_vector_[razmernost] = razmernost + 1;
+      }
+    }
+    razmernost++;
+  }
   std::vector<std::vector<double>> in_matrix(1, input_matrix_);
   std::vector<std::vector<double>> in_right_part(1, input_right_vector_);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
@@ -74,6 +74,20 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
 
 TEST(deryabin_m_jacobi_iterative_method, test_task_run) {
   // Create data
+  while (razmernost < 10000) {
+    if (razmernost % 101 == 0) {
+      input_matrix_[razmernost] = 1;
+      if (razmernost < 100) {
+        input_right_vector_[razmernost] = razmernost + 1;
+      }
+    } else {
+      input_matrix_[razmernost] = 0;
+      if (razmernost < 100) {
+        input_right_vector_[razmernost] = razmernost + 1;
+      }
+    }
+    razmernost++;
+  }
   std::vector<std::vector<double>> in_matrix(1, input_matrix_);
   std::vector<std::vector<double>> in_right_part(1, input_right_vector_);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
