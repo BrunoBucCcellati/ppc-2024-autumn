@@ -82,7 +82,7 @@ TEST(deryabin_m_jacobi_iterative_method_seq,
 				8,   9,   10, 11,  12, 999, 13, 14,  15,
 				16,  17,  18, 999, 19, 20,  21, 22,  23,
 				24,  999, 25, 26,  27, 28,  29, 30,  999 };
-  std::ector<double> input_right_vector_{ 1069, 2162, 3244, 4315, 5375, 6424 };
+  std::vector<double> input_right_vector_{ 1069, 2162, 3244, 4315, 5375, 6424 };
   std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<double> true_solution{ 1, 2, 3, 4, 5, 6 }
 
