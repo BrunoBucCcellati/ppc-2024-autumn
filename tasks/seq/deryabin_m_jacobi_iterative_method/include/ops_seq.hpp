@@ -8,7 +8,7 @@ namespace deryabin_m_jacobi_iterative_method_seq {
 
 class JacobiIterativeTaskSequential : public ppc::core::Task {
 public:
-  explicit JacobiIterativeTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_) : 
+ explicit JacobiIterativeTaskSequential(std::shared_ptr<ppc::core::TaskData> taskData_) : 
 Task(std::move(taskData_)) {}
   bool pre_processing() override;
   bool validation() override;
