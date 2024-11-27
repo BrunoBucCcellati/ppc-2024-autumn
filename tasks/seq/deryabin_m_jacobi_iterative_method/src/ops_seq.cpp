@@ -75,7 +75,8 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
         }
         j++;
       }
-      output_x_vector_[i] = (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) * (input_right_vector_[i] - sum);
+      output_x_vector_[i] = 
+          (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) * (input_right_vector_[i] - sum);
       if (fabs(output_x_vector_[i] - x_old[i]) > max_delta_x_i) {
         max_delta_x_i = fabs(output_x_vector_[i] - x_old[i]);
       }
