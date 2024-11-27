@@ -26,8 +26,10 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   while (i != sqrt(input_matrix_.size())) {
     if (i == 0) {
       if (fabs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
-              std::accumulate(input_matrix_.begin() + 1, input_matrix_.begin() + sqrt(input_matrix_.size()) - 1, 0,
-                              lambda) ||
+               std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()),
+                               input_matrix_.begin() + i * (sqrt(input_matrix_.size()) + 1) - 1, 0, lambda) +
+                   std::accumulate(input_matrix_.begin() + i * (sqrt(input_matrix_.size()) + 1) + 1,
+                                   input_matrix_.begin() + (i + 1) * sqrt(input_matrix_.size()) - 1, 0, lambda) ||
           input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
         return false;
       }
