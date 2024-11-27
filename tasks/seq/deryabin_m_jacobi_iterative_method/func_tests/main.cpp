@@ -9,10 +9,9 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_simple_matrix) {
   std::vector<double> input_matrix_{ 1, 2, 3, 1, 2, 3, 1, 2, 3 };
   std::vector<double> input_right_vector_{ 3, 6, 9 };
   std::vector<double> output_x_vector_ = std::vector<double>(3, 0);
-  std::vector<double> true_solution{ 1, 1, 1 }
+  std::vector<double> true_solution{ 1, 1, 1 };
 
-  std::vector<std::vector<double>>
-    in_matrix(1, input_matrix_);
+  std::vector<std::vector<double>> in_matrix(1, input_matrix_);
   std::vector<std::vector<double>> in_right_part(1, input_right_vector_);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
