@@ -77,7 +77,7 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_triangular_matrix) {
 }
 
 TEST(deryabin_m_jacobi_iterative_method_seq,
-     test_diagonal_elements_are_much_larger_than_non - diagonal) {
+     test_diagonal_elements_are_much_larger_than_non_diagonal) {
   // Create data
   std::vector<double> input_matrix_{ 999, 1,   2,  3,   4,  5,   6,  999, 7,
 				8,   9,   10, 11,  12, 999, 13, 14,  15,
