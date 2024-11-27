@@ -19,7 +19,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   // Check count elements
   if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
     return false;
-  };
+  }
   // Check conditions of convergence and applicability of the Jacobi method
   unsigned short i = 0;
   while (i != sqrt(input_matrix_.size())) {
