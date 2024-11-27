@@ -1,16 +1,17 @@
+#include <gtest/gtest.h>
+
 #include <chrono>
 #include <vector>
 
 #include "core/perf/include/perf.hpp"
 #include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
 
-std::vector<double> input_matrix_ = std::vector<double>(10000);
-std::vector<double> input_right_vector_ = std::vector<double>(100);
-std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
-unsigned short razmernost = 0;
-
 TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   // Create data
+  std::vector<double> input_matrix_ = std::vector<double>(10000);
+  std::vector<double> input_right_vector_ = std::vector<double>(100);
+  std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
+  unsigned short razmernost = 0;
   while (razmernost < 10000) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
@@ -64,6 +65,10 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
 
 TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   // Create data
+  std::vector<double> input_matrix_ = std::vector<double>(10000);
+  std::vector<double> input_right_vector_ = std::vector<double>(100);
+  std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
+  unsigned short razmernost = 0;
   while (razmernost < 10000) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
