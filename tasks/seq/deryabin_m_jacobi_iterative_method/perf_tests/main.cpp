@@ -62,7 +62,7 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   ASSERT_EQ(in_right_part[0], out_x_vec[0]);
 }
 
-TEST(deryabin_m_jacobi_iterative_method, test_task_run) {
+TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   // Create data
   while (razmernost < 10000) {
     if (razmernost % 101 == 0) {
