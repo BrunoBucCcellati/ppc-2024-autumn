@@ -6,8 +6,8 @@
 
 TEST(deryabin_m_jacobi_iterative_method_seq, test_simple_matrix) {
   // Create data
-  std::vector<double> input_matrix_{1, 2, 3, 1, 2, 3, 1, 2, 3};
-  std::vector<double> input_right_vector_{3, 6, 9};
+  std::vector<double> input_matrix_{6, 2, 3, 1, 5, 3, 1, 2, 4};
+  std::vector<double> input_right_vector_{11, 9, 7};
   std::vector<double> output_x_vector_ = std::vector<double>(3, 0);
   std::vector<double> true_solution{1, 1, 1};
 
