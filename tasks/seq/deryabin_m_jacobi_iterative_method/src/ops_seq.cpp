@@ -16,10 +16,6 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
   internal_order_test();
-  // Check count elements
-  if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
-    return false;
-  };
   // Check conditions of convergence and applicability of the Jacobi method
   unsigned short i = 0;
   while (i != sqrt(input_matrix_.size())) {
@@ -52,6 +48,10 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
       };
     }
     i++;
+  };
+  // Check count elements
+  if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
+    return false;
   };
   return true;
 }
