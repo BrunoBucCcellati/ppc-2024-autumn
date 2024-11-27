@@ -27,7 +27,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
       if (std::abs(input_matrix_[0]) <=
               std::accumulate(input_matrix_.begin() + 1, input_matrix_.begin() + sqrt(input_matrix_.size()) - 1, 0, 
                               [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
-          input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
+          input_matrix_[0] == 0) {
         return false;
       }
     }
