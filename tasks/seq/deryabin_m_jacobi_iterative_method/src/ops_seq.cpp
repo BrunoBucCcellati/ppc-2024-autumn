@@ -30,9 +30,9 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
                               lambda) ||
           input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
         return false;
-       }
-     }
-     if (i > 0 && i < sqrt(input_matrix_.size()) - 1) {
+      }
+    }
+    if (i > 0 && i < sqrt(input_matrix_.size()) - 1) {
       if (fabs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
               std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()),
                               input_matrix_.begin() + i * (sqrt(input_matrix_.size()) + 1) - 1, 0, lambda) +
@@ -40,17 +40,17 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
                                   input_matrix_.begin() + (i + 1) * sqrt(input_matrix_.size()) - 1, 0, lambda) ||
           input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
         return false;
-       }
-     }
-     if (i == sqrt(input_matrix_.size()) - 1) {
+      }
+    }
+    if (i == sqrt(input_matrix_.size()) - 1) {
       if (fabs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
               std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()), input_matrix_.end() - 1, 0,
                               lambda) ||
           input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
         return false;
-       }
-     }
-     i++;
+      }
+    }
+    i++;
   }
   return true;
 }
@@ -69,14 +69,14 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
       sum = 0;
       while (j != sqrt(input_matrix_.size())) {
         if (i != j) {
-	  sum += input_matrix_[i * sqrt(input_matrix_.size()) + j] * x_old[j];
+	   sum += input_matrix_[i * sqrt(input_matrix_.size()) + j] * x_old[j];
         }
         j++;
       }
       output_x_vector_[i] =
           (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) * (input_right_vector_[i] - sum);
       if (fabs(output_x_vector_[i] - x_old[i]) > max_delta_x_i) {
-	max_delta_x_i = fabs(output_x_vector_[i] - x_old[i]);
+	 max_delta_x_i = fabs(output_x_vector_[i] - x_old[i]);
       }
       i++;
     }
