@@ -22,7 +22,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   };
   // Check conditions of convergence and applicability of the Jacobi method
   unsigned short i = 0;
-  lambda = [&](double first, double second) { return fabs(first) + fabs(second); };
+  auto lambda = [&](double first, double second) { return fabs(first) + fabs(second); };
   while (i != sqrt(input_matrix_.size())) {
     if (i == 0) {
       if (fabs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
