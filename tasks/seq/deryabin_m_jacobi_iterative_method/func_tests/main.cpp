@@ -27,8 +27,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_simple_matrix) {
   // Create Task
   deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential jacobi_iterative_method_TaskSequential(
       taskDataSeq);
-  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.pre_processing();
+  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.run();
   jacobi_iterative_method_TaskSequential.post_processing();
   ASSERT_EQ(true_solution, out_x_vec[0]);
@@ -58,8 +58,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_triangular_matrix) {
   // Create Task
   deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential jacobi_iterative_method_TaskSequential(
       taskDataSeq);
-  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.pre_processing();
+  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.run();
   jacobi_iterative_method_TaskSequential.post_processing();
   ASSERT_EQ(true_solution, out_x_vec[0]);
@@ -89,8 +89,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_diagonal_elements_are_much_lar
   // Create Task
   deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential jacobi_iterative_method_TaskSequential(
       taskDataSeq);
-  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.pre_processing();
+  ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), true);
   jacobi_iterative_method_TaskSequential.run();
   jacobi_iterative_method_TaskSequential.post_processing();
   ASSERT_EQ(true_solution, out_x_vec[0]);
@@ -119,6 +119,7 @@ TEST(deryabin_m_jacobi_iterative_method_seq, invalid_matrix_zeros_on_diagonal) {
   // Create Task
   deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential jacobi_iterative_method_TaskSequential(
       taskDataSeq);
+  jacobi_iterative_method_TaskSequential.pre_processing();
   ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), false);
 }
 
@@ -145,5 +146,6 @@ TEST(deryabin_m_jacobi_iterative_method_seq, invalid_matrix_non_strict_diaganol_
   // Create Task
   deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential jacobi_iterative_method_TaskSequential(
       taskDataSeq);
+  jacobi_iterative_method_TaskSequential.pre_processing();
   ASSERT_EQ(jacobi_iterative_method_TaskSequential.validation(), false);
 }
