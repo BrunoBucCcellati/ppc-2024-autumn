@@ -12,7 +12,6 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   std::vector<double> input_right_vector_ = std::vector<double>(100);
   std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
   unsigned short razmernost = 0;
-	
   while (razmernost < 10000) { 
     if (razmernost < 100) {
       input_right_vector_[razmernost] = razmernost + 1;
@@ -38,10 +37,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential =
-      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
+  auto jacobi_iterative_method_TaskSequential = std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
 
-	
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
   perfAttr->num_running = 10;
@@ -68,8 +65,7 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   std::vector<double> input_right_vector_ = std::vector<double>(100);
   std::vector<double> output_x_vector_ = std::vector<double>(100, 0);
   unsigned short razmernost = 0;
-	
-  while (razmernost < 10000) { 
+  while (razmernost < 10000) {
     if (razmernost < 100) {
       input_right_vector_[razmernost] = razmernost + 1;
     }
@@ -94,10 +90,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential =
-      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
+  auto jacobi_iterative_method_TaskSequential = std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
 
-	
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
   perfAttr->num_running = 10;
