@@ -17,33 +17,34 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
   internal_order_test();
   // Check conditions of convergence and applicability of the Jacobi method
+  matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
-  while (i != sqrt(input_matrix_.size())) {
+  while (i != sqrt(matrix.size())) {
     if (i == 0) {
-      if (std::abs(input_matrix_[0]) <=
-              std::accumulate(input_matrix_.begin() + 1, input_matrix_.begin() + sqrt(input_matrix_.size()) - 1, 0, 
+      if (std::abs(matrix[0]) <=
+              std::accumulate(matrix.begin() + 1, matrix.begin() + sqrt(matrix.size()) - 1, 0, 
                               [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
-          input_matrix_[0] == 0) {
+          matrix[0] == 0) {
         return false;
       };
     }
-    if (i > 0 && i < sqrt(input_matrix_.size()) - 1) {
-      if (std::abs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
-              std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()), 
-                              input_matrix_.begin() + i * (sqrt(input_matrix_.size()) + 1) - 1, 0, 
+    if (i > 0 && i < sqrt(matrix.size()) - 1) {
+      if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
+              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), 
+                              matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0, 
                               [](double first, double second) { return (std::abs(first) + std::abs(second)); }) +
-                  std::accumulate(input_matrix_.begin() + i * (sqrt(input_matrix_.size()) + 1) + 1, 
-                                  input_matrix_.begin() + (i + 1) * sqrt(input_matrix_.size()) - 1, 0, 
+                  std::accumulate(matrix.begin() + i * (sqrt(matrix.size()) + 1) + 1, 
+                                  matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, 
                                   [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
-          input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
+          matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
     }
-    if (i == sqrt(input_matrix_.size()) - 1) {
-      if (std::abs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
-              std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()), input_matrix_.end() - 1, 0,
+    if (i == sqrt(matrix.size()) - 1) {
+      if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
+              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), matrix.end() - 1, 0,
                               [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
-          input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
+          matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
     }
