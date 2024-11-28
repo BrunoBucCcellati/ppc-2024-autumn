@@ -15,13 +15,13 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   while (razmernost < 10000) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
-      if (razmernost < 100) {
-	 input_right_vector_[razmernost] = razmernost + 1;
+      if (razmernost < 100) { 
+	input_right_vector_[razmernost] = razmernost + 1;
       }
     } else {
       input_matrix_[razmernost] = 0;
       if (razmernost < 100) {
-	 input_right_vector_[razmernost] = razmernost + 1;
+	input_right_vector_[razmernost] = razmernost + 1;
       }
     }
     razmernost++;
@@ -72,13 +72,13 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   while (razmernost < 10000) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
-      if (razmernost < 100) {
-	 input_right_vector_[razmernost] = razmernost + 1;
+      if (razmernost < 100) { 
+	input_right_vector_[razmernost] = razmernost + 1;
       }
     } else {
       input_matrix_[razmernost] = 0;
       if (razmernost < 100) {
-	 input_right_vector_[razmernost] = razmernost + 1;
+	input_right_vector_[razmernost] = razmernost + 1;
       }
     }
     razmernost++;
