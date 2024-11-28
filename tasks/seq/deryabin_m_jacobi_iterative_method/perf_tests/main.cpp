@@ -37,9 +37,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential = std::make_shared<
-      deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(
-      taskDataSeq);
+  auto jacobi_iterative_method_TaskSequential = 
+      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
 
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
@@ -92,9 +91,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential = std::make_shared<
-      deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(
-      taskDataSeq);
+  auto jacobi_iterative_method_TaskSequential = 
+      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
 
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
