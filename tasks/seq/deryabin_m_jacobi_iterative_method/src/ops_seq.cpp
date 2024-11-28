@@ -7,10 +7,9 @@
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
   internal_order_test();
-  // Init value for input and output
+  // Init value for input
   input_matrix_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   input_right_vector_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
-  output_x_vector_ = std::vector<double>(input_right_vector_.size(), double());
   return true;
 }
 
