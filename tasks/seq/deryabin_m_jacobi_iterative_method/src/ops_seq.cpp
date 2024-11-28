@@ -30,10 +30,8 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     }
     if (i > 0 && i < sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
-        
               std::accumulate(matrix.begin() + i * sqrt(matrix.size()), 
                               matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0, Lambda) +
-        
                   std::accumulate(matrix.begin() + i * (sqrt(matrix.size()) + 1) + 1, 
                                   matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, Lambda) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
@@ -74,7 +72,6 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
         }
         j++;
       }
-      
       output_x_vector_[i] = 
           (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) * (input_right_vector_[i] - sum);
       if (fabs(output_x_vector_[i] - x_old[i]) > max_delta_x_i) {
