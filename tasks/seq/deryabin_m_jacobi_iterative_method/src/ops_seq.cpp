@@ -19,11 +19,11 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   // Check conditions of convergence and applicability of the Jacobi method
   std::vector<double> matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
+  auto Lambda = [](double first, double second) { return (std::abs(first) + std::abs(second)); };
   while (i != sqrt(matrix.size())) {
     if (i == 0) {
       if (std::abs(matrix[0]) <=
-              std::accumulate(matrix.begin() + 1, matrix.begin() + sqrt(matrix.size()) - 1, 0, 
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+              std::accumulate(matrix.begin() + 1, matrix.begin() + sqrt(matrix.size()) - 1, 0, Lambda) ||
           matrix[0] == 0) {
         return false;
       };
@@ -31,19 +31,16 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     if (i > 0 && i < sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
               std::accumulate(matrix.begin() + i * sqrt(matrix.size()), 
-                              matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0, 
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) +
+                              matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0, Lambda) +
                   std::accumulate(matrix.begin() + i * (sqrt(matrix.size()) + 1) + 1, 
-                                  matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, 
-                                  [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+                                  matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, Lambda) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
     }
     if (i == sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
-              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), matrix.end() - 1, 0,
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), matrix.end() - 1, 0, Lambda) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
