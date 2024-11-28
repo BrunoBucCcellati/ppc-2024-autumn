@@ -16,12 +16,12 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
       if (razmernost < 100) {
-	input_right_vector_[razmernost] = razmernost + 1;
+        input_right_vector_[razmernost] = razmernost + 1;
       }
     } else {
       input_matrix_[razmernost] = 0;
       if (razmernost < 100) {
-	input_right_vector_[razmernost] = razmernost + 1;
+        input_right_vector_[razmernost] = razmernost + 1;
       }
     }
     razmernost++;
@@ -31,25 +31,32 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
   // Create TaskData
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
-  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t*>(in_matrix.data()));
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq =
+      std::make_shared<ppc::core::TaskData>();
+  taskDataSeq->inputs.emplace_back(
+      reinterpret_cast<uint8_t *>(in_matrix.data()));
   taskDataSeq->inputs_count.emplace_back(in_matrix.size());
-  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t*>(in_right_part.data()));
+  taskDataSeq->inputs.emplace_back(
+      reinterpret_cast<uint8_t *>(in_right_part.data()));
   taskDataSeq->inputs_count.emplace_back(in_right_part.size());
-  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t*>(out_x_vec.data()));
+  taskDataSeq->outputs.emplace_back(
+      reinterpret_cast<uint8_t *>(out_x_vec.data()));
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential =
-      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
-	
+  auto jacobi_iterative_method_TaskSequential = std::make_shared<
+      deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(
+      taskDataSeq);
+
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
   perfAttr->num_running = 10;
   const auto t0 = std::chrono::high_resolution_clock::now();
   perfAttr->current_timer = [&] {
     auto current_time_point = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time_point - t0).count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        current_time_point - t0)
+                        .count();
     return static_cast<double>(duration) * 1e-9;
   };
 
@@ -57,7 +64,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_pipeline_run) {
   auto perfResults = std::make_shared<ppc::core::PerfResults>();
 
   // Create Perf analyzer
-  auto perfAnalyzer = std::make_shared<ppc::core::Perf>(jacobi_iterative_method_TaskSequential);
+  auto perfAnalyzer =
+      std::make_shared<ppc::core::Perf>(jacobi_iterative_method_TaskSequential);
   perfAnalyzer->pipeline_run(perfAttr, perfResults);
   ppc::core::Perf::print_perf_statistic(perfResults);
   ASSERT_EQ(in_right_part[0], out_x_vec[0]);
@@ -73,12 +81,12 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
     if (razmernost % 101 == 0) {
       input_matrix_[razmernost] = 1;
       if (razmernost < 100) {
-	input_right_vector_[razmernost] = razmernost + 1;
+        input_right_vector_[razmernost] = razmernost + 1;
       }
     } else {
       input_matrix_[razmernost] = 0;
       if (razmernost < 100) {
-	input_right_vector_[razmernost] = razmernost + 1;
+        input_right_vector_[razmernost] = razmernost + 1;
       }
     }
     razmernost++;
@@ -88,25 +96,32 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
   // Create TaskData
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
-  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t*>(in_matrix.data()));
+  std::shared_ptr<ppc::core::TaskData> taskDataSeq =
+      std::make_shared<ppc::core::TaskData>();
+  taskDataSeq->inputs.emplace_back(
+      reinterpret_cast<uint8_t *>(in_matrix.data()));
   taskDataSeq->inputs_count.emplace_back(in_matrix.size());
-  taskDataSeq->inputs.emplace_back(reinterpret_cast<uint8_t*>(in_right_part.data()));
+  taskDataSeq->inputs.emplace_back(
+      reinterpret_cast<uint8_t *>(in_right_part.data()));
   taskDataSeq->inputs_count.emplace_back(in_right_part.size());
-  taskDataSeq->outputs.emplace_back(reinterpret_cast<uint8_t*>(out_x_vec.data()));
+  taskDataSeq->outputs.emplace_back(
+      reinterpret_cast<uint8_t *>(out_x_vec.data()));
   taskDataSeq->outputs_count.emplace_back(out_x_vec.size());
 
   // Create Task
-  auto jacobi_iterative_method_TaskSequential =
-      std::make_shared<deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(taskDataSeq);
-	
+  auto jacobi_iterative_method_TaskSequential = std::make_shared<
+      deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential>(
+      taskDataSeq);
+
   // Create Perf attributes
   auto perfAttr = std::make_shared<ppc::core::PerfAttr>();
   perfAttr->num_running = 10;
   const auto t0 = std::chrono::high_resolution_clock::now();
   perfAttr->current_timer = [&] {
     auto current_time_point = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(current_time_point - t0).count();
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(
+                        current_time_point - t0)
+                        .count();
     return static_cast<double>(duration) * 1e-9;
   };
 
@@ -114,7 +129,8 @@ TEST(deryabin_m_jacobi_iterative_method_seq, test_task_run) {
   auto perfResults = std::make_shared<ppc::core::PerfResults>();
 
   // Create Perf analyzer
-  auto perfAnalyzer = std::make_shared<ppc::core::Perf>(jacobi_iterative_method_TaskSequential);
+  auto perfAnalyzer =
+      std::make_shared<ppc::core::Perf>(jacobi_iterative_method_TaskSequential);
   perfAnalyzer->task_run(perfAttr, perfResults);
   ppc::core::Perf::print_perf_statistic(perfResults);
   ASSERT_EQ(in_right_part[0], out_x_vec[0]);
