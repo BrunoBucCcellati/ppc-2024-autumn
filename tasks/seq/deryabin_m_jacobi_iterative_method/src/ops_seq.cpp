@@ -26,7 +26,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
               std::accumulate(matrix.begin() + 1, matrix.begin() + sqrt(matrix.size()) - 1, 0, Lambda) ||
           matrix[0] == 0) {
         return false;
-      };
+      }
     }
     if (i > 0 && i < sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
@@ -36,21 +36,21 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
                                   matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, Lambda) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
-      };
+      }
     }
     if (i == sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
               std::accumulate(matrix.begin() + i * sqrt(matrix.size()), matrix.end() - 1, 0, Lambda) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
-      };
+      }
     }
     i++;
-  };
+  }
   // Check count elements
   if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
     return false;
-  };
+  }
   return true;
 }
 
