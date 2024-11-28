@@ -17,7 +17,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
   internal_order_test();
   // Check conditions of convergence and applicability of the Jacobi method
-  matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
+  std::vector<double> matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
   while (i != sqrt(matrix.size())) {
     if (i == 0) {
