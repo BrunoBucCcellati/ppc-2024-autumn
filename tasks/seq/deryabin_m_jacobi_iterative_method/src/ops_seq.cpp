@@ -7,7 +7,6 @@
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
   internal_order_test();
-  // Init value for input
   input_matrix_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   input_right_vector_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
   return true;
@@ -15,7 +14,6 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
   internal_order_test();
-  // Check conditions of convergence and applicability of the Jacobi method
   std::vector<double> matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
   auto Lambda = [](double first, double second) { return (std::abs(first) + std::abs(second)); };
@@ -46,7 +44,6 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     }
     i++;
   }
-  // Check count elements
   if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
     return false;
   }
