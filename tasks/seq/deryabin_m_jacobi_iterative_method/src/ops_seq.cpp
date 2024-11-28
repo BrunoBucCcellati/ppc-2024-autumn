@@ -1,49 +1,66 @@
-#include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
-
 #include <cmath>
 #include <numeric>
 #include <thread>
 #include <vector>
 
-bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
+#include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
+
+bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::
+    pre_processing() {
   internal_order_test();
   // Init value for input and output
-  input_matrix_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
-  input_right_vector_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
+  input_matrix_ =
+      reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
+  input_right_vector_ =
+      reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
   output_x_vector_ = std::vector<double>(input_right_vector_.size(), double());
   return true;
 }
 
-bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
+bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::
+    validation() {
   internal_order_test();
   // Check conditions of convergence and applicability of the Jacobi method
-  std::vector<double> matrix = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
+  std::vector<double> matrix =
+      reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
   while (i != sqrt(matrix.size())) {
     if (i == 0) {
       if (std::abs(matrix[0]) <=
-              std::accumulate(matrix.begin() + 1, matrix.begin() + sqrt(matrix.size()) - 1, 0, 
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+              std::accumulate(matrix.begin() + 1,
+                              matrix.begin() + sqrt(matrix.size()) - 1, 0,
+                              [](double first, double second) {
+                                return (std::abs(first) + std::abs(second));
+                              }) ||
           matrix[0] == 0) {
         return false;
       };
     }
     if (i > 0 && i < sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
-              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), 
-                              matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0, 
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) +
-                  std::accumulate(matrix.begin() + i * (sqrt(matrix.size()) + 1) + 1, 
-                                  matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0, 
-                                  [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+              std::accumulate(
+                  matrix.begin() + i * sqrt(matrix.size()),
+                  matrix.begin() + i * (sqrt(matrix.size()) + 1) - 1, 0,
+                  [](double first, double second) {
+                    return (std::abs(first) + std::abs(second));
+                  }) +
+                  std::accumulate(
+                      matrix.begin() + i * (sqrt(matrix.size()) + 1) + 1,
+                      matrix.begin() + (i + 1) * sqrt(matrix.size()) - 1, 0,
+                      [](double first, double second) {
+                        return (std::abs(first) + std::abs(second));
+                      }) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
     }
     if (i == sqrt(matrix.size()) - 1) {
       if (std::abs(matrix[i * (sqrt(matrix.size()) + 1)]) <=
-              std::accumulate(matrix.begin() + i * sqrt(matrix.size()), matrix.end() - 1, 0,
-                              [](double first, double second) { return (std::abs(first) + std::abs(second)); }) ||
+              std::accumulate(matrix.begin() + i * sqrt(matrix.size()),
+                              matrix.end() - 1, 0,
+                              [](double first, double second) {
+                                return (std::abs(first) + std::abs(second));
+                              }) ||
           matrix[i * (sqrt(matrix.size()) + 1)] == 0) {
         return false;
       };
@@ -51,13 +68,15 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     i++;
   };
   // Check count elements
-  if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
+  if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 ||
+      taskData->inputs_count[1] != 1) {
     return false;
   };
   return true;
 }
 
-bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run() {
+bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::
+    run() {
   internal_order_test();
   unsigned short Nmax = 10000, num_of_iterations = 0;
   double epsilon = pow(10, -6), max_delta_x_i = 0;
@@ -75,8 +94,9 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
         }
         j++;
       }
-      output_x_vector_[i] = 
-          (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) * (input_right_vector_[i] - sum);
+      output_x_vector_[i] =
+          (1.0 / input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) *
+          (input_right_vector_[i] - sum);
       if (fabs(output_x_vector_[i] - x_old[i]) > max_delta_x_i) {
         max_delta_x_i = fabs(output_x_vector_[i] - x_old[i]);
       }
@@ -87,8 +107,10 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
   return true;
 }
 
-bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::post_processing() {
+bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::
+    post_processing() {
   internal_order_test();
-  reinterpret_cast<std::vector<double> *>(taskData->outputs[0])[0] = output_x_vector_;
+  reinterpret_cast<std::vector<double> *>(taskData->outputs[0])[0] =
+      output_x_vector_;
   return true;
 }
