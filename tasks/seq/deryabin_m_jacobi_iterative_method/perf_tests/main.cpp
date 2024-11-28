@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <chrono>
 #include <vector>
 
 #include "core/perf/include/perf.hpp"
