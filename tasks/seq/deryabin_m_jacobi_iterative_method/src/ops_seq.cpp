@@ -20,9 +20,9 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   while (i != sqrt(matrix_.size())) {
     if (i == 0) {
       if (std::abs(matrix_[0]) <=
-               std::accumulate(matrix_.begin() + 1, matrix_.begin() + sqrt(matrix_.size()) - 1, 0, lambda) ||
-           matrix_[0] == 0) {
-         return false;
+              std::accumulate(matrix_.begin() + 1, matrix_.begin() + sqrt(matrix_.size()) - 1, 0, lambda) ||
+          matrix_[0] == 0) {
+        return false;
       }
     }
     if (i > 0 && i < sqrt(matrix_.size()) - 1) {
