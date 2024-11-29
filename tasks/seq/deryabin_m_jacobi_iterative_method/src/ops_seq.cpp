@@ -19,9 +19,8 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   auto lambda = [](double first, double second) { return (std::abs(first) + std::abs(second)); };
   while (i != sqrt(matrix_.size())) {
     if (i == 0) {
-      if (std::abs(matrix_[0]) <= std::accumulate(matrix_.begin() + 1, 
-                                                  matrix_.begin() + sqrt(matrix_.size()) - 1, 0, 
-                                                  lambda()) ||
+      if (std::abs(matrix_[0]) <= 
+              std::accumulate(matrix_.begin() + 1, matrix_.begin() + sqrt(matrix_.size()) - 1, 0, lambda()) ||
           matrix_[0] == 0) {
         return false;
       }
@@ -38,8 +37,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     }
     if (i == sqrt(matrix_.size()) - 1) {
       if (std::abs(matrix_[i * (sqrt(matrix_.size()) + 1)]) <=
-              std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()), matrix_.end() - 1, 0, 
-                              lambda()) ||
+              std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()), matrix_.end() - 1, 0, lambda()) ||
           matrix_[i * (sqrt(matrix_.size()) + 1)] == 0) {
         return false;
       }
