@@ -7,6 +7,7 @@
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
   internal_order_test();
+  input_matrix_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   input_right_vector_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[1])[0];
   return true;
 }
@@ -19,7 +20,9 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   while (i != sqrt(input_matrix_.size())) {
     if (i == 0) {
       if (std::abs(input_matrix_[0]) <=
-              std::accumulate(input_matrix_.begin() + 1, input_matrix_.begin() + sqrt(input_matrix_.size()) - 1, 0, lambda) ||
+              std::accumulate(input_matrix_.begin() + 1, 
+                              input_matrix_.begin() + sqrt(input_matrix_.size()) - 1, 0, 
+                              lambda) ||
           input_matrix_[0] == 0) {
         return false;
       }
@@ -36,7 +39,8 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     }
     if (i == sqrt(input_matrix_.size()) - 1) {
       if (std::abs(input_matrix_[i * (sqrt(input_matrix_.size()) + 1)]) <=
-              std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()), input_matrix_.end() - 1, 0, lambda) ||
+              std::accumulate(input_matrix_.begin() + i * sqrt(input_matrix_.size()), input_matrix_.end() - 1, 0, 
+                              lambda) ||
           input_matrix_[i * (sqrt(input_matrix_.size()) + 1)] == 0) {
         return false;
       }
@@ -77,7 +81,6 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run(
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
   return true;
 }
-
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::post_processing() {
   internal_order_test();
   reinterpret_cast<std::vector<double> *>(taskData->outputs[0])[0] = output_x_vector_;
