@@ -20,22 +20,22 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   while (i != sqrt(matrix_.size())) {
     if (i == 0) {
       if (std::abs(matrix_[0]) <=
-              std::accumulate(matrix_.begin() + 1, matrix_.begin() + sqrt(matrix_.size()) - 1, 0, lambda)) {
+          std::accumulate(matrix_.begin() + 1, matrix_.begin() + sqrt(matrix_.size()) - 1, 0, lambda)) {
         return false;
       }
     }
     if (i > 0 && i < sqrt(matrix_.size()) - 1) {
       if (std::abs(matrix_[i * (sqrt(matrix_.size()) + 1)]) <=
-              std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()),
-                              matrix_.begin() + i * (sqrt(matrix_.size()) + 1) - 1, 0, lambda) +
-                  std::accumulate(matrix_.begin() + i * (sqrt(matrix_.size()) + 1) + 1,
-                                  matrix_.begin() + (i + 1) * sqrt(matrix_.size()) - 1, 0, lambda)) {
+          std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()),
+                          matrix_.begin() + i * (sqrt(matrix_.size()) + 1) - 1, 0, lambda) +
+              std::accumulate(matrix_.begin() + i * (sqrt(matrix_.size()) + 1) + 1,
+                              matrix_.begin() + (i + 1) * sqrt(matrix_.size()) - 1, 0, lambda)) {
         return false;
       }
     }
     if (i == sqrt(matrix_.size()) - 1) {
       if (std::abs(matrix_[i * (sqrt(matrix_.size()) + 1)]) <=
-              std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()), matrix_.end() - 1, 0, lambda)) {
+          std::accumulate(matrix_.begin() + i * sqrt(matrix_.size()), matrix_.end() - 1, 0, lambda)) {
         return false;
       }
     }
