@@ -15,7 +15,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
   internal_order_test();
   input_matrix_ = reinterpret_cast<std::vector<double> *>(taskData->inputs[0])[0];
   unsigned short i = 0;
-  auto lambda = ([]double first, double second) -> double { return (std::abs(first) + std::abs(second)); };
+  auto lambda = [](double first, double second) { return (std::abs(first) + std::abs(second)); };
   while (i != sqrt(input_matrix_.size())) {
     if (i == 0) {
       if (std::abs(input_matrix_[0]) <=
