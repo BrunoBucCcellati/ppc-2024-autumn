@@ -14,7 +14,7 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::validation() {
   internal_order_test();
-  auto* matrix_ = reinterpret_cast<double *>(taskData->inputs[0]);
+  auto* matrix_ = reinterpret_cast<double *>(taskData->inputs[0])[0];
   unsigned short i = 0;
   auto lambda = [](double first, double second) { return (std::abs(first) + std::abs(second)); };
   while (i != sqrt(matrix_.size())) {
