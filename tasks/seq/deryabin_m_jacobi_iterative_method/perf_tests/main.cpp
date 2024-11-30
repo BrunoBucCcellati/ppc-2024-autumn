@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <vector>
-
 #include "core/perf/include/perf.hpp"
 #include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
 
