@@ -38,8 +38,8 @@ class JacobiIterativeMPITaskParallel : public ppc::core::Task {
   bool post_processing() override;
 
  private:
-  std::vector<double> input_matrix_{};
-  std::vector<double> input_right_vector_{};
+  std::vector<double> input_matrix_{}, local_input_matrix_part_{};
+  std::vector<double> input_right_vector_{}, local_input_right_vector_part_{};
   std::vector<double> output_x_vector_{};
   boost::mpi::communicator world;
 };
