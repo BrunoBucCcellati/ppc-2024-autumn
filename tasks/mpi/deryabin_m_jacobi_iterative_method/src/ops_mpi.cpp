@@ -153,20 +153,20 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
   auto lambda = [&](double first, double second) { return (std::abs(first) + std::abs(second)); };
   while (i != loc_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
     if (i == 0 && world.rank() == 1) {
-      if (std::abs(matrix_[0]) <=
+      if (std::abs(loc_matrix_part_[0]) <=
           std::accumulate(loc_matrix_part_.begin() + 1, loc_matrix_part_.begin() + sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
         return false;
       }
     }
     if (world.rank() == 0) {
       if (i == number_of_local_matrix_rows + ostatochnoe_chislo_strock - 1) {
-        if (std::abs(loc_matrix_part_[i * (sqrt(taskData->inputs_count[0]) + 1)]) <=
+        if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - 1]) <=
             std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.end() - 1, 0, lambda)) {
           return false;
         }
       } else {
-        if (std::abs(loc_matrix_part_[i * (sqrt(taskData->inputs_count[0]) + 1)]) <=
-            std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.end() - 1, 0, lambda)) {
+        if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) <=
+            std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) - 1, 0, lambda)) {
           return false;
         }
       }
