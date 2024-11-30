@@ -3,7 +3,6 @@
 #include <cmath>
 #include <numeric>
 #include <thread>
-#include <vector>
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
   internal_order_test();
