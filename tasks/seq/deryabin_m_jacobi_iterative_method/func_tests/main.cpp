@@ -1,7 +1,5 @@
 #include <gtest/gtest.h>
 
-#include <vector>
-
 #include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
 
 TEST(deryabin_m_jacobi_iterative_method_seq, test_simple_matrix) {
