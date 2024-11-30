@@ -199,12 +199,12 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     x_old = output_x_vector_;
     unsigned short i = 0, j;
     double sum;
-    while (i != sqrt(input_matrix_.size())) {
+    while (i != loc_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
       j = 0;
       sum = 0;
-      while (j != sqrt(input_matrix_.size())) {
+      while (j != sqrt(taskData->inputs_count[0])) {
         if (i != j) {
-          sum += input_matrix_[i * sqrt(input_matrix_.size()) + j] * x_old[j];
+          sum += loc_matrix_part_[i * sqrt(taskData->inputs_count[0]) + j] * x_old[j];
         }
         j++;
       }
