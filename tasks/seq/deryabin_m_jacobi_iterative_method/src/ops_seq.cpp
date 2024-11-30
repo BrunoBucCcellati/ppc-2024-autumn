@@ -41,16 +41,13 @@ bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::vali
     }
     i++;
   }
-  if (taskData->inputs_count[0] != 1 || taskData->outputs_count[0] != 1 || taskData->inputs_count[1] != 1) {
-    return false;
-  }
-  return true;
+  return taskData->inputs_count[0] == 1 && taskData->outputs_count[0] == 1 && taskData->inputs_count[1] == 1;
 }
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::run() {
   internal_order_test();
-  unsigned short Nmax = 1000, num_of_iterations = 0;
-  double epsilon = pow(10, -3), max_delta_x_i = 0;
+  unsigned short Nmax = 10000, num_of_iterations = 0;
+  double epsilon = pow(10, -6), max_delta_x_i = 0;
   std::vector<double> x_old;
   do {
     x_old = output_x_vector_;
