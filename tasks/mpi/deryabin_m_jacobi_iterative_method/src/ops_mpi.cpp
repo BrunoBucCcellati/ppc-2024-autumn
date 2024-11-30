@@ -11,7 +11,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::p
   for (unsigned i = 0; i < taskData->inputs_count[0]; i++) {
     input_matrix_[i] = tmp_ptr[i];
     if (i < taskData->inputs_count[1]) {
-      input_right_vector_ = tmp_ptr2[i];
+      input_right_vector_[i] = tmp_ptr2[i];
     }
   }
   output_x_vector_ = std::vector<double>(input_right_vector_.size());
@@ -99,7 +99,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   for (unsigned i = 0; i < taskData->inputs_count[0]; i++) {
     input_matrix_[i] = tmp_ptr[i];
     if (i < taskData->inputs_count[1]) {
-      input_right_vector_ = tmp_ptr2[i];
+      input_right_vector_[i] = tmp_ptr2[i];
     }
   }
   output_x_vector_ = std::vector<double>(input_right_vector_.size());
