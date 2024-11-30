@@ -1,7 +1,5 @@
 #include "mpi/deryabin_m_jacobi_iterative_method/include/ops_mpi.hpp"
 
-#include <cmath>
-#include <numeric>
 #include <thread>
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::pre_processing() {
