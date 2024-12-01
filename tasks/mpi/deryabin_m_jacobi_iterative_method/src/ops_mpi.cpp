@@ -86,7 +86,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::r
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::post_processing() {
   internal_order_test();
-  reinterpret_cast<std::vector<double> *>(taskData->outputs[0])[0] = output_x_vector_;
+  reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   return true;
 }
 
@@ -108,8 +108,11 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
       }
     }
     for (int proc = 1; proc < world.size(); proc++) {
-      world.send(proc, 0, input_matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]), (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
-      world.send(proc, 0, input_right_vector_.data() + (proc - 1) * number_of_local_matrix_rows, number_of_local_matrix_rows);
+      world.send(proc, 0, 
+                 input_matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]),
+                (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
+      world.send(proc, 0, input_right_vector_.data() + (proc - 1) * number_of_local_matrix_rows, 
+                 number_of_local_matrix_rows);
     }
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
@@ -117,8 +120,13 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   local_input_matrix_part_ = std::vector<double>(number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
   local_input_right_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
   if (world.rank() == 0) {
-    local_input_matrix_part_ = std::vector<double>(input_matrix_.end() - (number_of_local_matrix_rows + ostatochnoe_chislo_strock) * sqrt(taskData->inputs_count[0]) + 1, input_matrix_.end());
-    local_input_right_vector_part_ = std::vector<double>(input_right_vector_.end() - number_of_local_matrix_rows - ostatochnoe_chislo_strock + 1, input_right_vector_.end());
+    local_input_matrix_part_ = std::vector<double>(
+        input_matrix_.end() - 
+            (number_of_local_matrix_rows + ostatochnoe_chislo_strock) * sqrt(taskData->inputs_count[0]) + 1, 
+        input_matrix_.end());
+     local_input_right_vector_part_ = 
+         std::vector<double>(input_right_vector_.end() - number_of_local_matrix_rows - ostatochnoe_chislo_strock + 1,
+                             input_right_vector_.end());
   } else {
     world.recv(0, 0, local_input_matrix_part_.data(), number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
     world.recv(0, 0, local_input_right_vector_part_.data(), number_of_local_matrix_rows);
@@ -140,15 +148,19 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
       matrix_[i] = tmp_ptr[i];
     }
     for (int proc = 1; proc < world.size(); proc++) {
-      world.send(proc, 0, matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]), (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
+      world.send(proc, 0, matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]), 
+                 (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
     }
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
   boost::mpi::broadcast(world, ostatochnoe_chislo_strock, 0);
   boost::mpi::broadcast(world, matrix_, 0);
-  std::vector<double> loc_matrix_part_ = std::vector<double>(number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
+  std::vector<double> loc_matrix_part_ = 
+      std::vector<double>(number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
   if (world.rank() == 0) {
-    loc_matrix_part_ = std::vector<double>(matrix_.end() - (number_of_local_matrix_rows + ostatochnoe_chislo_strock) * sqrt(taskData->inputs_count[0]) + 1, matrix_.end());
+    loc_matrix_part_ = std::vector<double>(
+        matrix_.end() - (number_of_local_matrix_rows + ostatochnoe_chislo_strock) * sqrt(taskData->inputs_count[0]) + 1, 
+        matrix_.end());
   } else {
     world.recv(0, 0, loc_matrix_part_.data(), number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
   }
@@ -157,7 +169,8 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
   while (i != loc_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
     if (world.rank() == 1 && i == 0) {
       if (std::abs(loc_matrix_part_[0]) <=
-          std::accumulate(loc_matrix_part_.begin() + 1, loc_matrix_part_.begin() + sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
+          std::accumulate(loc_matrix_part_.begin() + 1, loc_matrix_part_.begin() + sqrt(taskData->inputs_count[0]) - 1, 
+                          0, lambda)) {
         return false;
       }
     }
@@ -168,16 +181,28 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
           return false;
         }
       } else {
-        if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) <=
-            std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) - 1, 0, lambda) + 
-                std::accumulate(loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
+        if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - 
+                                      (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) <=
+            std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), 
+                            loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 
+                                (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) - 1, 
+                            0, lambda) + 
+                std::accumulate(loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 
+                                    (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, 
+                                loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
           return false;
         }
       }
     } else {
-      if (std::abs(loc_matrix_part_[i * sqrt(taskData->inputs_count[0]) + i + (world.rank() - 1) * (number_of_local_matrix_rows)]) <=
-            std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + (world.rank() - 1) * (number_of_local_matrix_rows) - 1, 0, lambda) + 
-                std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + (world.rank() - 1) * (number_of_local_matrix_rows) + 1, loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
+      if (std::abs(loc_matrix_part_[i * sqrt(taskData->inputs_count[0]) + i + 
+                                    (world.rank() - 1) * (number_of_local_matrix_rows)]) <=
+          std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), 
+                          loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
+                              (world.rank() - 1) * (number_of_local_matrix_rows) - 1, 
+                          0, lambda) + 
+                std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
+                                    (world.rank() - 1) * (number_of_local_matrix_rows) + 1, 
+                                loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
           return false;
         }
     }
@@ -216,10 +241,19 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           }
           j++;
         }
-        output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] =
-            (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
-        if (std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] - x_old[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) > max_delta_x_i) {
-          max_delta_x_i = std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] - x_old[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
+        output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                         (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] =
+            (local_input_right_vector_part_[i] - sum) *
+            (1.0 / local_input_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) -
+                                            (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
+        if (std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                                      (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] -
+                     x_old[sqrt(taskData->inputs_count[0]) -
+                           (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) > max_delta_x_i) {
+          max_delta_x_i = std::abs(
+              output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                               (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] -
+              x_old[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
         }
       } else {
         while (j != sqrt(taskData->inputs_count[0])) {
@@ -229,9 +263,13 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           j++;
         }
         output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] =
-            (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
-        if (std::abs(output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) > max_delta_x_i) {
-          max_delta_x_i = std::abs(output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
+            (local_input_right_vector_part_[i] - sum) *
+            (1.0 / local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + i +
+                                            (world.rank() - 1) * (number_of_local_matrix_rows)]);
+        if (std::abs(output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] -
+                     x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) > max_delta_x_i) {
+          max_delta_x_i = std::abs(output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] -
+                                   x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
         }
       }
       i++;
@@ -244,7 +282,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
   internal_order_test();
   if (world.rank() == 0) {
-    reinterpret_cast<std::vector<double> *>(taskData->outputs[0])[0] = output_x_vector_;
+    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   }
   return true;
 }
