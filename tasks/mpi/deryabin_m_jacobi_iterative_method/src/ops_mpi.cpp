@@ -201,11 +201,11 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
                           loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
                               (world.rank() - 1) * (number_of_local_matrix_rows) - 1, 
                           0, lambda) + 
-               std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
-                                   (world.rank() - 1) * (number_of_local_matrix_rows) + 1, 
-                               loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
-          return false;
-        }
+              std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
+                                  (world.rank() - 1) * (number_of_local_matrix_rows) + 1, 
+                              loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
+        return false;
+      }
     }
     i++;
   }
