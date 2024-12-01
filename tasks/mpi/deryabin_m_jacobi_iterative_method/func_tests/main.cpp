@@ -13,7 +13,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
   std::vector<double> output_x_vector_ = std::vector<double>(3, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
   if (world.rank() == 0) {
     taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t*>(input_matrix_.data()));
     taskDataPar->inputs_count.emplace_back(input_matrix_.size());
@@ -51,14 +51,14 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
 }
 
 TEST(deryabin_m_jacobi_iterative_method_mpi, test_triangular_matrix) {
-  // Create data
+  boost::mpi::communicator world;
   std::vector<double> input_matrix_{16, 1, 2, 3,  4,  5,  0, 31, 6, 7, 8,  9,  0, 0, 34, 10, 11, 12,
                                     0,  0, 0, 28, 13, 14, 0, 0,  0, 0, 16, 15, 0, 0, 0,  0,  0,  17};
   std::vector<double> input_right_vector_{86, 202, 269, 261, 170, 102};
   std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
   if (world.rank() == 0) {
     taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t*>(input_matrix_.data()));
     taskDataPar->inputs_count.emplace_back(input_matrix_.size());
@@ -96,14 +96,14 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_triangular_matrix) {
 }
 
 TEST(deryabin_m_jacobi_iterative_method_mpi, test_diagonal_elements_are_much_larger_than_non_diagonal) {
-  // Create data
+  boost::mpi::communicator world;
   std::vector<double> input_matrix_{999, 1,  2,  3,   4,  5,  6,  999, 7,  8,  9,   10, 11, 12, 999, 13, 14, 15,
                                     16,  17, 18, 999, 19, 20, 21, 22,  23, 24, 999, 25, 26, 27, 28,  29, 30, 999};
   std::vector<double> input_right_vector_{1069, 2162, 3244, 4315, 5375, 6424};
   std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
   if (world.rank() == 0) {
     taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t*>(input_matrix_.data()));
     taskDataPar->inputs_count.emplace_back(input_matrix_.size());
@@ -141,14 +141,14 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_diagonal_elements_are_much_lar
 }
 
 TEST(deryabin_m_jacobi_iterative_method_mpi, invalid_matrix_zeros_on_diagonal) {
-  // Create data
+  boost::mpi::communicator world;
   std::vector<double> input_matrix_{0,  1,  2,  3, 4,  5,  6,  0,  7,  8,  9, 10, 11, 12, 0,  13, 14, 15,
                                     16, 17, 18, 0, 19, 20, 21, 22, 23, 24, 0, 25, 26, 27, 28, 29, 30, 0};
   std::vector<double> input_right_vector_{70, 164, 247, 319, 380, 430};
   std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
   if (world.rank() == 0) {
     taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t*>(input_matrix_.data()));
     taskDataPar->inputs_count.emplace_back(input_matrix_.size());
@@ -186,14 +186,14 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, invalid_matrix_zeros_on_diagonal) {
 }
 
 TEST(deryabin_m_jacobi_iterative_method_mpi, invalid_matrix_non_strict_diaganol_predominance) {
-  // Create data
+  boost::mpi::communicator world;
   std::vector<double> input_matrix_{15, 1,  2,  3,  4,  5,  6,  40, 7,  8,  9,   10, 11, 12, 65, 13, 14, 15,
                                     16, 17, 18, 90, 19, 20, 21, 22, 23, 24, 115, 25, 26, 27, 28, 29, 30, 140};
   std::vector<double> input_right_vector_{85, 244, 442, 679, 955, 1270};
   std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
-  std::shared_ptr<ppc::core::TaskData> taskDataSeq = std::make_shared<ppc::core::TaskData>();
+  std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
   if (world.rank() == 0) {
     taskDataPar->inputs.emplace_back(reinterpret_cast<uint8_t*>(input_matrix_.data()));
     taskDataPar->inputs_count.emplace_back(input_matrix_.size());
