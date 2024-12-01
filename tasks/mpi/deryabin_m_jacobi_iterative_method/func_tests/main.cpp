@@ -23,7 +23,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
     taskDataPar->outputs_count.emplace_back(out_x_vec.size());
   }
 
-  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel()(taskDataPar);
+  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
   ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
@@ -68,7 +68,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_triangular_matrix) {
     taskDataPar->outputs_count.emplace_back(out_x_vec.size());
   }
 
-  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel()(taskDataPar);
+  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
   ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
@@ -113,7 +113,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_diagonal_elements_are_much_lar
     taskDataPar->outputs_count.emplace_back(out_x_vec.size());
   }
 
-  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel()(taskDataPar);
+  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
   ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
@@ -158,7 +158,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, invalid_matrix_zeros_on_diagonal) {
     taskDataPar->outputs_count.emplace_back(out_x_vec.size());
   }
 
-  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel()(taskDataPar);
+  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
   ASSERT_EQ(testMpiTaskParallel.validation(), false);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
@@ -203,7 +203,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, invalid_matrix_non_strict_diaganol_
     taskDataPar->outputs_count.emplace_back(out_x_vec.size());
   }
 
-  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel()(taskDataPar);
+  deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
   ASSERT_EQ(testMpiTaskParallel.validation(), false);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
