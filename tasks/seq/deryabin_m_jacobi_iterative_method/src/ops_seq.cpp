@@ -1,7 +1,5 @@
 #include "seq/deryabin_m_jacobi_iterative_method/include/ops_seq.hpp"
 
-#include <cmath>
-#include <numeric>
 #include <thread>
 
 bool deryabin_m_jacobi_iterative_method_seq::JacobiIterativeTaskSequential::pre_processing() {
