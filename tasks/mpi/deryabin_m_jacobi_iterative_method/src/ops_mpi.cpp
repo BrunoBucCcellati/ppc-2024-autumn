@@ -109,7 +109,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
     }
     for (int proc = 1; proc < world.size(); proc++) {
       world.send(proc, 0, 
-                 input_matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]),
+                 input_matrix_.data() + (proc - 1) * number_of_local_matrix_rows * (int)(sqrt(taskData->inputs_count[0])),
                  (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
       world.send(proc, 0, input_right_vector_.data() + (proc - 1) * number_of_local_matrix_rows, 
                  number_of_local_matrix_rows);
@@ -148,7 +148,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
       matrix_[i] = tmp_ptr[i];
     }
     for (int proc = 1; proc < world.size(); proc++) {
-      world.send(proc, 0, matrix_.data() + (proc - 1) * number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]), 
+      world.send(proc, 0, matrix_.data() + (proc - 1) * number_of_local_matrix_rows * (int)(sqrt(taskData->inputs_count[0])), 
                  (int)(number_of_local_matrix_rows) * (int)(sqrt(taskData->inputs_count[0])));
     }
   }
