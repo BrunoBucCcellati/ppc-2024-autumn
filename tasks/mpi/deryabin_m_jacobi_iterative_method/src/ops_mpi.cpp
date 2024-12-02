@@ -206,9 +206,9 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
     }
     i++;
   }
-  if (world.rank() == 0) {
-    return taskData->outputs_count[0] == 1;
-  }
+  //if (world.rank() == 0) {
+    //return taskData->outputs_count[0] == 1;
+  //}
   return true;
 }
 
