@@ -24,7 +24,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
   }
 
   deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
-  ASSERT_EQ(testMpiTaskParallel.validation(), false);
+  ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
   testMpiTaskParallel.post_processing();
@@ -41,7 +41,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
     taskDataSeq->outputs_count.emplace_back(reference_out_x_vec.size());
 
     deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential testMpiTaskSequential(taskDataSeq);
-    ASSERT_EQ(testMpiTaskSequential.validation(), false);
+    ASSERT_EQ(testMpiTaskSequential.validation(), true);
     testMpiTaskSequential.pre_processing();
     testMpiTaskSequential.run();
     testMpiTaskSequential.post_processing();
@@ -69,7 +69,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_triangular_matrix) {
   }
 
   deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
-  ASSERT_EQ(testMpiTaskParallel.validation(), false);
+  ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
   testMpiTaskParallel.post_processing();
@@ -86,7 +86,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_triangular_matrix) {
     taskDataSeq->outputs_count.emplace_back(reference_out_x_vec.size());
 
     deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential testMpiTaskSequential(taskDataSeq);
-    ASSERT_EQ(testMpiTaskSequential.validation(), false);
+    ASSERT_EQ(testMpiTaskSequential.validation(), true);
     testMpiTaskSequential.pre_processing();
     testMpiTaskSequential.run();
     testMpiTaskSequential.post_processing();
@@ -114,7 +114,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_diagonal_elements_are_much_lar
   }
 
   deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel testMpiTaskParallel(taskDataPar);
-  ASSERT_EQ(testMpiTaskParallel.validation(), false);
+  ASSERT_EQ(testMpiTaskParallel.validation(), true);
   testMpiTaskParallel.pre_processing();
   testMpiTaskParallel.run();
   testMpiTaskParallel.post_processing();
@@ -131,7 +131,7 @@ TEST(deryabin_m_jacobi_iterative_method_mpi, test_diagonal_elements_are_much_lar
     taskDataSeq->outputs_count.emplace_back(reference_out_x_vec.size());
 
     deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential testMpiTaskSequential(taskDataSeq);
-    ASSERT_EQ(testMpiTaskSequential.validation(), false);
+    ASSERT_EQ(testMpiTaskSequential.validation(), true);
     testMpiTaskSequential.pre_processing();
     testMpiTaskSequential.run();
     testMpiTaskSequential.post_processing();
