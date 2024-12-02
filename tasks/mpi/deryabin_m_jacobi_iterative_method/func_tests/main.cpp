@@ -8,9 +8,9 @@
 
 TEST(deryabin_m_jacobi_iterative_method_mpi, test_simple_matrix) {
   boost::mpi::communicator world;
-  std::vector<double> input_matrix_{6, 2, 3, 1, 5, 3, 1, 2, 4};
-  std::vector<double> input_right_vector_{11, 9, 7};
-  std::vector<double> output_x_vector_ = std::vector<double>(3, 0);
+  std::vector<double> input_matrix_{1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1};
+  std::vector<double> input_right_vector_{1, 2, 3, 4, 5, 6};
+  std::vector<double> output_x_vector_ = std::vector<double>(6, 0);
   std::vector<std::vector<double>> out_x_vec(1, output_x_vector_);
 
   std::shared_ptr<ppc::core::TaskData> taskDataPar = std::make_shared<ppc::core::TaskData>();
