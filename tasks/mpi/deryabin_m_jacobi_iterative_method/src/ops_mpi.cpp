@@ -201,14 +201,14 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
               std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]) + i + 
                                   (world.rank() - 1) * (number_of_local_matrix_rows) + 1, 
                               loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
-        return false;
+        //return false;
       }
     }
     i++;
   }
-  //if (world.rank() == 0) {
-    //return taskData->outputs_count[0] == 1;
-  //}
+  if (world.rank() == 0) {
+    return taskData->outputs_count[0] == 1;
+  }
   return true;
 }
 
