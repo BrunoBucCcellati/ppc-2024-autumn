@@ -304,3 +304,11 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
   return true;
 }
+
+bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
+  internal_order_test();
+  if (world.rank() == 0) {
+    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
+  }
+  return true;
+}
