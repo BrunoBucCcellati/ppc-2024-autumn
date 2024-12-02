@@ -221,7 +221,6 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
-  boost::mpi::broadcast(world, ostatochnoe_chislo_strock, 0);
   unsigned short Nmax = 10000, num_of_iterations = 0;
   double epsilon = pow(10, -6), max_delta_x_i = 0;
   std::vector<double> x_old;
