@@ -214,14 +214,93 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run() {
   internal_order_test();
-  
-  return true;
-}
-
-bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
-  internal_order_test();
+  unsigned short number_of_local_matrix_rows = 0;
+  unsigned short ostatochnoe_chislo_strock = 0;
   if (world.rank() == 0) {
-    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
+    number_of_local_matrix_rows =
+        sqrt(taskData->inputs_count[0]) / world.size();
+    ostatochnoe_chislo_strock =
+        (int)(sqrt(taskData->inputs_count[0])) % world.size();
   }
+  boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
+  unsigned short Nmax = 10000, num_of_iterations = 0;
+  double epsilon = pow(10, -6), max_delta_x_i = 0;
+  std::vector<double> x_old;
+  do {
+    x_old = output_x_vector_;
+    unsigned short i = 0, j;
+    double sum;
+    while (i !=
+           local_input_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
+      j = 0;
+      sum = 0;
+      if (world.rank() == 0) {
+        while (j != sqrt(taskData->inputs_count[0])) {
+          if (sqrt(taskData->inputs_count[0]) -
+                  (number_of_local_matrix_rows + ostatochnoe_chislo_strock -
+                   i) !=
+              j) {
+            sum +=
+                local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) +
+                                         j] *
+                x_old[j];
+          }
+          j++;
+        }
+        output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                         (number_of_local_matrix_rows +
+                          ostatochnoe_chislo_strock - i)] =
+            (local_input_right_vector_part_[i] - sum) *
+            (1.0 /
+             local_input_matrix_part_[(i + 1) *
+                                          sqrt(taskData->inputs_count[0]) -
+                                      (number_of_local_matrix_rows +
+                                       ostatochnoe_chislo_strock - i)]);
+        if (std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                                      (number_of_local_matrix_rows +
+                                       ostatochnoe_chislo_strock - i)] -
+                     x_old[sqrt(taskData->inputs_count[0]) -
+                           (number_of_local_matrix_rows +
+                            ostatochnoe_chislo_strock - i)]) > max_delta_x_i) {
+          max_delta_x_i =
+              std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) -
+                                        (number_of_local_matrix_rows +
+                                         ostatochnoe_chislo_strock - i)] -
+                       x_old[sqrt(taskData->inputs_count[0]) -
+                             (number_of_local_matrix_rows +
+                              ostatochnoe_chislo_strock - i)]);
+        }
+      } else {
+        while (j != sqrt(taskData->inputs_count[0])) {
+          if (i + (world.rank() - 1) * (number_of_local_matrix_rows) != j) {
+            sum +=
+                local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) +
+                                         j] *
+                x_old[j];
+          }
+          j++;
+        }
+        output_x_vector_[i +
+                         (world.rank() - 1) * (number_of_local_matrix_rows)] =
+            (local_input_right_vector_part_[i] - sum) *
+            (1.0 /
+             local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + i +
+                                      (world.rank() - 1) *
+                                          (number_of_local_matrix_rows)]);
+        if (std::abs(
+                output_x_vector_[i + (world.rank() - 1) *
+                                         (number_of_local_matrix_rows)] -
+                x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) >
+            max_delta_x_i) {
+          max_delta_x_i = std::abs(
+              output_x_vector_[i + (world.rank() - 1) *
+                                       (number_of_local_matrix_rows)] -
+              x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
+        }
+      }
+      i++;
+    }
+    num_of_iterations++;
+  } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
   return true;
 }
