@@ -287,9 +287,9 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
   internal_order_test();
-  //if (world.rank() == 0) {
-    //reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
-  //}
-  reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
+  if (world.rank() == world.size() - 1) {
+    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
+  }
+  //reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   return true;
 }
