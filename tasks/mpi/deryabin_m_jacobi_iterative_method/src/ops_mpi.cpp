@@ -279,7 +279,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  auto lambda_ = [](std::vector<double> first, std::vector<double> second) { return (first.insert(first.end(), second.begin(), second.end())); };
+  auto lambda_ = [](std::vector<double> first, std::vector<double> second) { return first.insert(first.end(), second.begin(), second.end()); };
   boost::mpi::reduce(world, local_output_x_vector_part_, output_x_vector_, lambda_, 0);
   return true;
 }
