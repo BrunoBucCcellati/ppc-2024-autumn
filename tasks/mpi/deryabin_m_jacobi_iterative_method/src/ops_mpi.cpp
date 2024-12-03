@@ -282,6 +282,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
+  boost::mpi::broadcast(world, output_x_vector_, 0);
   return true;
 }
 
