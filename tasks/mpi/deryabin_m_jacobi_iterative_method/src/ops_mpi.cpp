@@ -176,7 +176,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
         if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - 1]) <=
             std::accumulate(loc_matrix_part_.begin() + i * sqrt(taskData->inputs_count[0]), loc_matrix_part_.end() - 1, 
                             0, lambda)) {
-          //return false;
+          return false;
         }
       } else {
         if (std::abs(loc_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - 
@@ -188,7 +188,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
                 std::accumulate(loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 
                                     (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, 
                                 loc_matrix_part_.begin() + (i + 1) * sqrt(taskData->inputs_count[0]) - 1, 0, lambda)) {
-          //return false;
+          return false;
         }
       }
     } else {
