@@ -248,7 +248,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           }
           j++;
         }
-        local_output_x_vector_part_[i)] 
+        local_output_x_vector_part_[i] 
           = (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
         if (std::abs(local_output_x_vector_part_[i] -
                      x_old[i]) > max_delta_x_i) {
