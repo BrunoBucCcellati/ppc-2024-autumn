@@ -257,7 +257,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
                              (number_of_local_matrix_rows +
                               ostatochnoe_chislo_strock - i)]);
         }
-      } else if (world.rank() == 1) {
+      } else {
         while (j != sqrt(taskData->inputs_count[0])) {
           if (i + (world.rank() - 1) * (number_of_local_matrix_rows) != j) {
             sum += local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + j] * x_old[j];
@@ -287,7 +287,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
   internal_order_test();
-  if (world.rank() == world.size() - 1) {
+  if (world.rank() == 0) {
     reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   }
   //reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
