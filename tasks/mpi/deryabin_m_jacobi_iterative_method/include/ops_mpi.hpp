@@ -40,7 +40,7 @@ class JacobiIterativeMPITaskParallel : public ppc::core::Task {
  private:
   std::vector<double> input_matrix_{}, local_input_matrix_part_{};
   std::vector<double> input_right_vector_{}, local_input_right_vector_part_{};
-  std::vector<double> output_x_vector_{};
+  std::vector<double> output_x_vector_{}, local_output_x_vector_part_{};
   boost::mpi::communicator world;
 };
 }  // namespace deryabin_m_jacobi_iterative_method_mpi
