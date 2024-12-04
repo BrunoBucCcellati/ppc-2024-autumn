@@ -254,7 +254,6 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
                                        (number_of_local_matrix_rows)] -
               x_old[i + (1 + world.rank() - 1) * (number_of_local_matrix_rows)]);
         }
-        world.send(0, 0, output_x_vector_.data() + (1 + world.rank() - 1) * (number_of_local_matrix_rows), number_of_local_matrix_rows);
       }
       i++;
     }
