@@ -279,15 +279,15 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  auto lambda_ = [](std::vector<double> first, std::vector<double> second) { return first.insert(first.end(), second.begin(), second.end()); };
-  boost::mpi::reduce(world, local_output_x_vector_part_, output_x_vector_, lambda_, 0);
+  //auto lambda_ = [](std::vector<double> first, std::vector<double> second) { return first.insert(first.end(), second.begin(), second.end()); };
+  //boost::mpi::reduce(world, local_output_x_vector_part_, output_x_vector_, lambda_, 0);
   return true;
 }
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
   internal_order_test();
-  if (world.rank() == 0) {
-    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
+  if (world.rank() == 1) {
+    reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = local_output_x_vector_part_;
   }
   //reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   return true;
