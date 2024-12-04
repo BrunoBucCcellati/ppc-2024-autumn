@@ -288,12 +288,8 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  if (world.rank() != 0) {
-    world.send(0, 0, output_x_vector_.data(),  number_of_local_matrix_rows);
-  }
-  if (world.rank() == 0) {
-      world.recv(1, 0, output_x_vector_.data(), number_of_local_matrix_rows);
-  }
+  boost::mpi::gatherv(world, output_x_vector_.data(), output_x_vector_, output_x_vector_, output_x_vector_, displacements, 0);
+  boost::mpi::broadcast(world, output_x_vector_.data(), output_x_vector_.size(), 0);
   return true;
 }
 
@@ -302,6 +298,5 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pos
   if (world.rank() == 0) {
     reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   }
-  //reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   return true;
 } 
