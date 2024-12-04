@@ -56,8 +56,8 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::v
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskSequential::run() {
   internal_order_test();
-  unsigned short Nmax = 10000, num_of_iterations = 0;
-  double epsilon = pow(10, -6), max_delta_x_i = 0;
+  unsigned short Nmax = 100, num_of_iterations = 0;
+  double epsilon = pow(10, -2), max_delta_x_i = 0;
   std::vector<double> x_old;
   do {
     x_old = output_x_vector_;
