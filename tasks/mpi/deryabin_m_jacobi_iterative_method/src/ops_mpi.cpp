@@ -234,24 +234,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   std::vector<double> x_old;
   do {
     if (world.rank() == 0) {
-      x_old = output_x_vector_;
-      unsigned short i = 0, j;
-      double sum;
-      while (i != local_input_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
-        j = 0;
-        sum = 0;
-        while (j != n) {
-          if (sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) != j) {
-            sum += local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + j] * x_old[j];
-          }
-          j++;
-        }
-        output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] = (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[(i + 1) * sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
-        if (std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] - x_old[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]) > max_delta_x_i) {
-          max_delta_x_i = std::abs(output_x_vector_[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)] - x_old[sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i)]);
-        }
-        i++;
-      }
+      
     } else {
       x_old = output_x_vector_;
       unsigned short i = 0, j;
@@ -274,9 +257,6 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
     if (world.rank() != 0) {
-      output_x_vector_[0] = 1;
-      output_x_vector_[1] = 2;
-      output_x_vector_[2] = 3;
       //boost::mpi::gatherv(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
     } else {
