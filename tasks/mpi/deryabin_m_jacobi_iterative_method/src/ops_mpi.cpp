@@ -219,13 +219,13 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   internal_order_test();
   std::vector<int> sendcounts(1, 0);
   if (world.rank() != 0) {
-    output_x_vector_[0] = 1;
+    //output_x_vector_[0] = 1;
       //boost::mpi::gatherv(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
   } else {
-    output_x_vector_[1] = 1;
+    //output_x_vector_[1] = 1;
   }
-  boost::mpi::gather(world, local_input_matrix_part_.data(), output_x_vector_, 0);
+  boost::mpi::gather(world, local_input_matrix_part_.data(), 1, output_x_vector_.data(), 0);
     //if (world.rank() == 0) {
       //boost::mpi::broadcast(world, output_x_vector_.data() + number_of_local_matrix_rows, number_of_local_matrix_rows + ostatochnoe_chislo_strock, 0);
     //} else {
