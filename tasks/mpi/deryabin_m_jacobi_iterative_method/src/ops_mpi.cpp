@@ -270,9 +270,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           }
           j++;
         }
-        output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] =
-            (local_input_right_vector_part_[i] - sum) *
-            (1.0 / local_input_matrix_part_[i * n + i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
+        output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] = 15;
         if (std::abs(
                 output_x_vector_[i + (world.rank() - 1) *
                                          (number_of_local_matrix_rows)] -
@@ -288,23 +286,12 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  int i =  0;
-  if (world.rank() != 0) {
-    world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows); 
-    world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows);
-    i = world.rank() - 1;
-  }
-  boost::mpi::broadcast(world, i, 0);
-  if (world.rank() == 0) {
-      world.recv(0, 0, output_x_vector_.data(), number_of_local_matrix_rows);
-      world.recv(0, 0, output_x_vector_.data() + i * (number_of_local_matrix_rows), number_of_local_matrix_rows);
-  }
   return true;
 }
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::post_processing() {
   internal_order_test();
-  if (world.rank() == 0) {
+  if (world.rank() == 1) {
     reinterpret_cast<std::vector<double>*>(taskData->outputs[0])[0] = output_x_vector_;
   }
   return true;
