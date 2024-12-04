@@ -218,7 +218,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run() {
   internal_order_test();
   unsigned short number_of_local_matrix_rows = 0;
-  unsigned short ostatochnoe_chislo_strock = 0;
+  //unsigned short ostatochnoe_chislo_strock = 0;
   unsigned short n = 0;
   if (world.rank() == 0) {
     number_of_local_matrix_rows =
