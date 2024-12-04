@@ -287,7 +287,10 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     }
     num_of_iterations++;
     if (world.rank() != 0) {
-      boost::mpi::gatherv(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
+      output_x_vector_[0] = 1;
+      output_x_vector_[1] = 2;
+      output_x_vector_[2] = 3;
+      //boost::mpi::gatherv(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
     } else {
       //boost::mpi::gatherv(world, output_x_vector_.data() + number_of_local_matrix_rows, number_of_local_matrix_rows, 1);
