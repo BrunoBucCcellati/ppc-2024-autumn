@@ -233,9 +233,9 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   //double epsilon = pow(10, -6), max_delta_x_i = 0;
   //std::vector<double> x_old;
   if (world.rank() == 0) {
-    output_x_vector[0] = local_input_matrix_part_[3];
+    output_x_vector_[0] = local_input_matrix_part_[3];
   } else {
-    output_x_vector[0] += local_input_matrix_part_[0];
+    output_x_vector_[0] += local_input_matrix_part_[0];
   }
   //} while (num_of_iterations < Nmax);
   //boost::mpi::gatherv(world, output_x_vector_.data(), output_x_vector_, output_x_vector_, output_x_vector_, output_x_vector_, 0);
