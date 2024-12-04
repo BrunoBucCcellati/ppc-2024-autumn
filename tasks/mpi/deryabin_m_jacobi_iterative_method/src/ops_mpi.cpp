@@ -229,7 +229,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
   boost::mpi::broadcast(world, n, 0);
-  unsigned short Nmax = 100, num_of_iterations = 0;
+  unsigned short Nmax = 10000, num_of_iterations = 0;
   double epsilon = pow(10, -6), max_delta_x_i = 0;
   std::vector<double> x_old;
   do {
@@ -297,8 +297,8 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     //} else {
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 1); 
     //}
-  //} while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  } while (num_of_iterations < Nmax);
+  } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
+  //} while (num_of_iterations < Nmax);
   //boost::mpi::gatherv(world, output_x_vector_.data(), output_x_vector_, output_x_vector_, output_x_vector_, output_x_vector_, 0);
   return true;
 }
