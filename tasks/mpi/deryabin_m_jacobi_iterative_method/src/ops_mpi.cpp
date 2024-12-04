@@ -240,7 +240,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
            local_input_matrix_part_.size() / sqrt(taskData->inputs_count[0])) {
       j = 0;
       sum = 0;
-      if (world.rank() == 1) {
+      if (world.rank() == 0) {
         while (j != sqrt(taskData->inputs_count[0])) {
           if (sqrt(taskData->inputs_count[0]) - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) != j) {
             sum += local_input_matrix_part_[i * sqrt(taskData->inputs_count[0]) + j] * x_old[j];
@@ -264,23 +264,41 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
                               ostatochnoe_chislo_strock - i)]);
         }
       } else {
-        output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] = 15;
+        while (j != n) {
+          if (i + (world.rank() - 1) * (number_of_local_matrix_rows) != j) {
+            sum += local_input_matrix_part_[i * n + j] * x_old[j];
+          }
+          j++;
+        }
+        output_x_vector_[i + (world.rank() - 1) * (number_of_local_matrix_rows)] =
+            (local_input_right_vector_part_[i] - sum) *
+            (1.0 / local_input_matrix_part_[i * n + i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
+        if (std::abs(
+                output_x_vector_[i + (world.rank() - 1) *
+                                         (number_of_local_matrix_rows)] -
+                x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) >
+            max_delta_x_i) {
+          max_delta_x_i = std::abs(
+              output_x_vector_[i + (world.rank() - 1) *
+                                       (number_of_local_matrix_rows)] -
+              x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
+        }
       }
       i++;
     }
     num_of_iterations++;
   } while (num_of_iterations < Nmax && max_delta_x_i > epsilon);
-  //int i =  0;
-  //if (world.rank() != 0) {
-    //world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows); 
-    //world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows);
-    //i = world.rank() - 1;
-  //}
-  //boost::mpi::broadcast(world, i, 0);
-  //if (world.rank() == 0) {
-      //world.recv(0, 0, output_x_vector_.data(), number_of_local_matrix_rows);
-      //world.recv(0, 0, output_x_vector_.data() + i * (number_of_local_matrix_rows), number_of_local_matrix_rows);
-  //}
+  int i =  0;
+  if (world.rank() != 0) {
+    world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows); 
+    world.send(0, world.rank(), output_x_vector_.data() + (world.rank() - 1) * (number_of_local_matrix_rows),  number_of_local_matrix_rows);
+    i = world.rank() - 1;
+  }
+  boost::mpi::broadcast(world, i, 0);
+  if (world.rank() == 0) {
+      world.recv(0, 0, output_x_vector_.data(), number_of_local_matrix_rows);
+      world.recv(0, 0, output_x_vector_.data() + i * (number_of_local_matrix_rows), number_of_local_matrix_rows);
+  }
   return true;
 }
 
