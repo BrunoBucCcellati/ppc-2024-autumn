@@ -218,17 +218,17 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run() {
   internal_order_test();
   double sendcounts;
-  if (world.rank() != 0) {
+  if (world.rank() == 0) {
     sendcounts = 1.0;
-    boost::mpi::gather(world, sendcounts, 0);
+    std::vector<double> v;
+    boost::mpi::gather<double>(world, sendcounts, v, 0);
+    std::copy(v.begin(), v.end(), output_x_vector_.begin());
     //output_x_vector_[0] = 1;
       //boost::mpi::gatherv(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
   } else {
     sendcounts = 2.0;
-    std::vector<double> v;
-    boost::mpi::gather(world, sendcounts, v, 0);
-    std::copy(v.begin(), v.end(), output_x_vector_.begin());
+    boost::mpi::gather(world, sendcounts, 0);
     //output_x_vector_[1] = 1;
   }
     //if (world.rank() == 0) {
