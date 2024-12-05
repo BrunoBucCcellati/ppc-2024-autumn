@@ -226,7 +226,9 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
       //boost::mpi::broadcast(world, output_x_vector_.data(), number_of_local_matrix_rows, 0);
   } else {
     sendcounts = 2.0;
-    boost::mpi::gather(world, sendcounts, output_x_vector_, 0);
+    std::vector<double> v;
+    boost::mpi::gather(world, sendcounts, v, 0);
+    std::copy(v.begin(), v.end(), output_x_vector_.begin());
     //output_x_vector_[1] = 1;
   }
     //if (world.rank() == 0) {
