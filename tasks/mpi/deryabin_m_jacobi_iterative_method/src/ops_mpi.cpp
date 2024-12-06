@@ -95,7 +95,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   unsigned short number_of_local_matrix_rows = 0;
   unsigned short ostatochnoe_chislo_strock = 0;
   if (world.rank() == 0) {
-    number_of_local_matrix_rows = (int)(sqrt(taskData->inputs_count[0])) / world.size();
+    number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
     ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
     input_matrix_ = std::vector<double>(taskData->inputs_count[0]);
     auto* tmp_ptr = reinterpret_cast<double*>(taskData->inputs[0]);
@@ -118,7 +118,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
   local_input_matrix_part_ = std::vector<double>(number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
   local_input_right_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
-  local_output_x_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
+  //local_output_x_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
   if (world.rank() == 0) {
     local_input_matrix_part_ = std::vector<double>(
         input_matrix_.end() - 
@@ -127,7 +127,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
     local_input_right_vector_part_ = 
         std::vector<double>(input_right_vector_.end() - number_of_local_matrix_rows - ostatochnoe_chislo_strock,
                             input_right_vector_.end());
-    local_output_x_vector_part_.resize(number_of_local_matrix_rows + ostatochnoe_chislo_strock);
+    //local_output_x_vector_part_.resize(number_of_local_matrix_rows + ostatochnoe_chislo_strock);
     output_x_vector_ = std::vector<double>(input_right_vector_.size());
   } else {
     world.recv(0, 0, local_input_matrix_part_.data(), number_of_local_matrix_rows * sqrt(taskData->inputs_count[0]));
@@ -138,11 +138,11 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::validation() {
   internal_order_test();
-    unsigned short number_of_local_matrix_rows = 0;
+  unsigned short number_of_local_matrix_rows = 0;
   unsigned short ostatochnoe_chislo_strock = 0;
   std::vector<double> matrix_ = std::vector<double>(taskData->inputs_count[0]);
   if (world.rank() == 0) {
-    number_of_local_matrix_rows = (int)(sqrt(taskData->inputs_count[0])) / world.size();
+    number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
     ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
     auto* tmp_ptr = reinterpret_cast<double*>(taskData->inputs[0]);
     for (unsigned i = 0; i < taskData->inputs_count[0]; i++) {
