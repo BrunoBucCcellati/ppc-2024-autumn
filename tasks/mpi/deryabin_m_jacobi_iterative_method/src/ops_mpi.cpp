@@ -228,16 +228,16 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     //boost::mpi::gather(world, 2.0, 0);
     //output_x_vector_[1] = 1;
   //}
-  std::vector<double> vec{1, 2, 3};
-  std::vector<double> v;
+  ///////std::vector<double> vec{1, 2, 3};
+  ///////std::vector<double> v;
   //boost::mpi::gather(world, sendcounts, v, 0);
-  std::vector<int> sendcounts(world.size(), 1);
+  //////std::vector<int> sendcounts(world.size(), 1);
   //std::vector<int> displacements(world.size(), 0);
   //for (int i = 1; i < world.size(); i++) {
     //displacements[i] = displacements[i - 1] + 1;
   //}
   //boost::mpi::gatherv(world, 1.0, v, 0);
-  boost::mpi::gatherv(world, vec.data(), 1, v.data(), sendcounts, 0);
+  //////boost::mpi::gatherv(world, vec.data(), 1, v.data(), sendcounts, 0);
   //std::copy(v.begin(), v.end(), output_x_vector_.begin());
     //if (world.rank() == 0) {
       //boost::mpi::broadcast(world, output_x_vector_.data() + number_of_local_matrix_rows, number_of_local_matrix_rows + ostatochnoe_chislo_strock, 0);
