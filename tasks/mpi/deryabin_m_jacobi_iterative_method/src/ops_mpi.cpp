@@ -96,9 +96,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   unsigned short ostatochnoe_chislo_strock = 0;
   if (world.rank() == 0) {
     number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
-    ostatochnoe_chislo_strock = sqrt(taskData->inputs_count[0]) % world.size();
-    number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
-    ostatochnoe_chislo_strock = sqrt(taskData->inputs_count[0]) % world.size();
+    ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
     input_matrix_ = std::vector<double>(taskData->inputs_count[0]);
     auto* tmp_ptr = reinterpret_cast<double*>(taskData->inputs[0]);
     input_right_vector_ = std::vector<double>(taskData->inputs_count[1]);
@@ -143,7 +141,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
   std::vector<double> matrix_ = std::vector<double>(taskData->inputs_count[0]);
   if (world.rank() == 0) {
     number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
-    ostatochnoe_chislo_strock = sqrt(taskData->inputs_count[0]) % world.size();
+    ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
     auto* tmp_ptr = reinterpret_cast<double*>(taskData->inputs[0]);
     for (unsigned i = 0; i < taskData->inputs_count[0]; i++) {
       matrix_[i] = tmp_ptr[i];
@@ -219,10 +217,8 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   unsigned short number_of_local_matrix_rows = 0;
   unsigned short ostatochnoe_chislo_strock = 0;
   if (world.rank() == 0) {
-    number_of_local_matrix_rows =
-        sqrt(taskData->inputs_count[0]) / world.size();
-    ostatochnoe_chislo_strock =
-        sqrt(taskData->inputs_count[0]) % world.size();
+    number_of_local_matrix_rows = sqrt(taskData->inputs_count[0]) / world.size();
+    ostatochnoe_chislo_strock = (int)(sqrt(taskData->inputs_count[0])) % world.size();
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
   unsigned short Nmax = 10000, num_of_iterations = 0;
