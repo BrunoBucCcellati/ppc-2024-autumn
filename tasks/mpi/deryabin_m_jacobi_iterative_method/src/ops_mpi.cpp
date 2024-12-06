@@ -232,7 +232,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   //boost::mpi::gather(world, sendcounts, v, 0);
   std::vector<int> sendcounts(world.size(), 1);
   std::vector<int> displacements(world.size(), 0);
-  for (int i = 1; i < size; i++) {
+  for (int i = 1; i < world.size(); i++) {
     displacements[i] = displacements[i - 1] + 1;
   }
   boost::mpi::gatherv(world, input_matrix_.data() + world.rank(), sendcounts[world.rank()], output_x_vector_.data(), sendcounts, displacements, 0);
