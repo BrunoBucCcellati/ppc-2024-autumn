@@ -197,7 +197,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run() {
   internal_order_test();
-  std::vector<double> vec(world.size(), 1);
+  std::vector<double> vec{1, 2, 3, 4, 5, 6};
   std::vector<double> v(world.size(), 0);
   std::vector<int> sendcounts(world.size(), 1);
   boost::mpi::gatherv(world, vec.data() + world.rank(), 1, v.data(), sendcounts, 0);
