@@ -143,6 +143,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
   internal_order_test();
   unsigned short number_of_local_matrix_rows = 0;
   unsigned short ostatochnoe_chislo_strock = 0;
+  unsigned short n = 0;
   std::vector<double> matrix_ = std::vector<double>(taskData->inputs_count[0]);
   if (world.rank() == 0) {
     n = (int)(sqrt(taskData->inputs_count[0]));
