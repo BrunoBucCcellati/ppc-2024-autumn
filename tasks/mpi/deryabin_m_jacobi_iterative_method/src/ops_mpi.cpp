@@ -176,10 +176,10 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
             std::accumulate(loc_matrix_part_.begin() + i * n, 
                             loc_matrix_part_.begin() + (i + 1) * n - 
                                 (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) - 1, 
-                            0, lambda) + 
-                std::accumulate(loc_matrix_part_.begin() + (i + 1) * n - 
-                                    (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, 
-                                loc_matrix_part_.begin() + (i + 1) * n - 1, 0, lambda)) {
+                            0, lambda) + 0)
+                //std::accumulate(loc_matrix_part_.begin() + (i + 1) * n - 
+                                    //(number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, 
+                                //loc_matrix_part_.begin() + (i + 1) * n - 1, 0, lambda)) {
           return false;
         }
       }
