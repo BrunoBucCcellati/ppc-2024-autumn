@@ -121,7 +121,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
   boost::mpi::broadcast(world, n, 0);
   local_input_matrix_part_ = std::vector<double>(number_of_local_matrix_rows * n);
   local_input_right_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
-  //local_output_x_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
+  local_output_x_vector_part_ = std::vector<double>(number_of_local_matrix_rows);
   if (world.rank() == 0) {
     local_input_matrix_part_ = std::vector<double>(
         input_matrix_.end() - 
@@ -130,7 +130,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::pre
     local_input_right_vector_part_ = 
         std::vector<double>(input_right_vector_.end() - number_of_local_matrix_rows - ostatochnoe_chislo_strock,
                             input_right_vector_.end());
-    //local_output_x_vector_part_.resize(number_of_local_matrix_rows + ostatochnoe_chislo_strock);
+    local_output_x_vector_part_.resize(number_of_local_matrix_rows + ostatochnoe_chislo_strock);
     output_x_vector_ = std::vector<double>(input_right_vector_.size());
   } else {
     world.recv(0, 0, local_input_matrix_part_.data(), number_of_local_matrix_rows * n);
@@ -222,11 +222,11 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
 
 bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run() {
   internal_order_test();
-  //std::vector<double> vec{1, 2, 3, 4, 5, 6};
-  //std::vector<double> v(world.size(), 0);
-  //std::vector<int> sendcounts(world.size(), 1);
-  //boost::mpi::gatherv(world, vec.data() + world.rank(), 1, v.data(), sendcounts, 0);
-  //std::copy(v.begin(), v.end(), output_x_vector_.begin());
+  std::vector<double> vec{1, 2, 3, 4, 5, 6};
+  std::vector<double> v(11, 0);
+  std::vector<int> sendcounts(11, 1);
+  boost::mpi::gatherv(world, vec.data() + world.rank(), 1, v.data(), sendcounts, 0);
+  std::copy(v.begin(), v.end(), output_x_vector_.begin());
   return true;
 }
 
