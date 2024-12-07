@@ -174,10 +174,14 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
           return false;
         }
       }
-    } else {
+    } 
+    if (world.rank() != 0 && (world.rank() != 1 || i != 0)) {
       if (std::abs(local_input_matrix_part_[i * (n + 1) + 
                                     (world.rank() - 1) * (number_of_local_matrix_rows)]) <=
-          
+          std::accumulate(local_input_matrix_part_.begin() + i * n, 
+                          local_input_matrix_part_.begin() + i * (n + 1) + 
+                              (world.rank() - 1) * (number_of_local_matrix_rows) - 1, 
+                          0, lambda) + 
               std::accumulate(local_input_matrix_part_.begin() + i * (n + 1) + 
                                   (world.rank() - 1) * (number_of_local_matrix_rows) + 1, 
                               local_input_matrix_part_.begin() + (i + 1) * n - 1, 0, lambda)) {
