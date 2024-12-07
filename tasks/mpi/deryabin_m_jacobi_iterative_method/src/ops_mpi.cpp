@@ -225,7 +225,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   std::vector<double> vec{1, 2, 3, 4, 5, 6};
   std::vector<double> v;
   std::vector<int> sendcounts(world.size(), 1);
-  boost::mpi::gatherv(world, vec, v.data(), sendcounts, 0);
+  boost::mpi::gatherv(world, vec.data() + world.rank(), 1, v.data(), sendcounts, 0);
   std::copy(v.begin(), v.end(), output_x_vector_.begin());
   return true;
 }
