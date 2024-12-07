@@ -167,7 +167,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::val
             std::accumulate(local_input_matrix_part_.begin() + i * n, 
                             local_input_matrix_part_.begin() + (i + 1) * n - 
                                 (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) - 1, 
-                            0, lambda)
+                            0, lambda) +
                   std::accumulate(local_input_matrix_part_.begin() + (i + 1) * n - 
                                       (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) + 1, 
                                   local_input_matrix_part_.begin() + (i + 1) * n - 1, 0, lambda)) {
