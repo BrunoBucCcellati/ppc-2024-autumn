@@ -216,7 +216,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     x_old = output_x_vector_;
     unsigned short i = 0, j;
     double sum;
-    while (i != local_input_matrix_part_.size() / n) {
+    while (i != local_output_x_vector_part_.size()) {
       j = 0;
       sum = 0;
       if (world.rank() == 0) {
@@ -237,7 +237,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           }
           j++;
         }
-        local_input_right_vector_part_[i] = sum;
+        
         //local_output_x_vector_part_[i] = (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[i * (n + 1) + (world.rank() - 1) * (number_of_local_matrix_rows)]);
         //if (std::abs(local_output_x_vector_part_[i] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) > max_delta_x_i) {
           //max_delta_x_i = std::abs(local_output_x_vector_part_[i] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
