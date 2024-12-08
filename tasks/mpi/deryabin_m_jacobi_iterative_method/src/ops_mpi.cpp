@@ -233,7 +233,7 @@ void deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::jus
     }
     i++;
   }
-  boost::mpi::gatherv(world, local_output_x_vector_part_.data(), local_output_x_vector_part_.size(), output_x_vector_.data(), sendcounts, 0);
+  boost::mpi::gatherv(world, local_output_x_vector_part_.data(), (int)(local_output_x_vector_part_.size()), output_x_vector_.data(), sendcounts, 0);
   boost::mpi::broadcast(world, output_x_vector_.data(), output_x_vector_.size(), 0);
 }
 
