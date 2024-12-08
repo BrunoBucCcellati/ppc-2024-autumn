@@ -36,6 +36,7 @@ class JacobiIterativeMPITaskParallel : public ppc::core::Task {
   bool validation() override;
   bool run() override;
   bool post_processing() override;
+  void just_one_iteration();
 
  private:
   std::vector<double> input_matrix_, local_input_matrix_part_;
