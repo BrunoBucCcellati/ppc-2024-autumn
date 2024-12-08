@@ -208,12 +208,15 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   unsigned short number_of_local_matrix_rows = 0;
   unsigned short ostatochnoe_chislo_strock = 0;
   unsigned short n = 0;
+  std::vector<int> sendcounts(world.size());
   if (world.rank() == 0) {
     n = (int)(sqrt(taskData->inputs_count[0]));
     number_of_local_matrix_rows = n / world.size();
     ostatochnoe_chislo_strock = n % world.size();
-    std::vector<int> sendcounts(world.size(), number_of_local_matrix_rows);
     sendcounts[world.rank()] = number_of_local_matrix_rows + ostatochnoe_chislo_strock;
+    for (int proc = 1; proc < world.size(); proc++) {
+      sendcounts[proc] = number_of_local_matrix_rows;
+    }
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
   boost::mpi::broadcast(world, n, 0);
