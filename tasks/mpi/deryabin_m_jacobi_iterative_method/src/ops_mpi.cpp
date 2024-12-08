@@ -245,7 +245,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
   do {
     x_old = output_x_vector_;
     just_one_iteration();
-    for (int i = 0; i < output_x_vector_.size(); i++) {
+    for (long unsigned int i = 0; i < output_x_vector_.size(); i++) {
       max_delta_x_i = std::max(max_delta_x_i, std::abs(output_x_vector_[i] - x_old[i]));
     }
     num_of_iterations++;
