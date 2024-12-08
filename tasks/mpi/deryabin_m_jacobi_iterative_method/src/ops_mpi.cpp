@@ -215,10 +215,13 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
     ostatochnoe_chislo_strock = n % world.size();
     sendcounts[world.rank()] = number_of_local_matrix_rows + ostatochnoe_chislo_strock;
     for (int proc = 1; proc < world.size(); proc++) {
-      sendcounts[proc] = number_of_local_matrix_rows;
+      world.send(proc, 0, sendcounts.data() + proc, number_of_local_matrix_rows);
     }
   }
   boost::mpi::broadcast(world, number_of_local_matrix_rows, 0);
+  if (world.rank() != 0) {
+    world.recv(0, 0, sendcounts.data() + world.rank(), number_of_local_matrix_rows);
+  }
   boost::mpi::broadcast(world, n, 0);
   unsigned short Nmax = 10000, num_of_iterations = 0;
   double epsilon = pow(10, -6), max_delta_x_i = 0;
