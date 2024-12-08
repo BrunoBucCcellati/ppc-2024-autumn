@@ -217,11 +217,11 @@ void deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::jus
     while (j != n) {
       if (world.rank() == 0) {
         if (n - (number_of_local_matrix_rows + ostatochnoe_chislo_strock - i) != j) {
-          sum += local_input_matrix_part_[i * n + j] * x_old[j];
+          sum += local_input_matrix_part_[i * n + j] * output_x_vector_[j];
         }
       } else {
         if (i + (world.rank() - 1) * (number_of_local_matrix_rows) != j) {
-          sum += local_input_matrix_part_[i * n + j] * x_old[j];
+          sum += local_input_matrix_part_[i * n + j] * output_x_vector_[j];
         }
       }
       j++;
