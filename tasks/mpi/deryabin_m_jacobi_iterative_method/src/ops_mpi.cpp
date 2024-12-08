@@ -237,9 +237,7 @@ bool deryabin_m_jacobi_iterative_method_mpi::JacobiIterativeMPITaskParallel::run
           }
           j++;
         }
-        if (i == 3) {
-          std::cerr << "Incorrect matrix: diagonal element A[" << i + 1 << "][" << i + 1 << "] is zero." << std::endl;
-        }
+        local_input_matrix_part_[i * (n + 1) + (world.rank() - 1) * (number_of_local_matrix_rows)] = 1;
         //local_output_x_vector_part_[i] = (local_input_right_vector_part_[i] - sum) * (1.0 / local_input_matrix_part_[i * (n + 1) + (world.rank() - 1) * (number_of_local_matrix_rows)]);
         //if (std::abs(local_output_x_vector_part_[i] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]) > max_delta_x_i) {
           //max_delta_x_i = std::abs(local_output_x_vector_part_[i] - x_old[i + (world.rank() - 1) * (number_of_local_matrix_rows)]);
