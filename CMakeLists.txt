@@ -1,4 +1,4 @@
-cmake_minimum_required( VERSION 3.25 )
+cmake_minimum_required( VERSION 3.31 )
 
 project(parallel_programming_course)
 message( STATUS "Parallel Programming Course" )
